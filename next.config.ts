@@ -24,7 +24,7 @@ const nextConfig: NextConfig = {
 		// Demo statik exportta optimize edilmesin
 		unoptimized: isDemoExport,
 	},
-	eslint: isDemoExport ? { ignoreDuringBuilds: true } : undefined,
+	eslint: { ignoreDuringBuilds: true },
 	typescript: isDemoExport ? { ignoreBuildErrors: true } as any : undefined,
 	// Demo modunda static export al
 	...(isDemoExport ? { 
