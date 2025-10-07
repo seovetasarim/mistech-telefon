@@ -19,7 +19,7 @@ export default async function AdminDashboard({ params }: { params: Promise<{ loc
   const series = Array.isArray(m.last7days) ? m.last7days : [];
   const totalOrdersWeek = series.reduce((sum: number, d: any) => sum + (d.orders||0), 0);
   const avgPerDay = Math.round(totalOrdersWeek / 7);
-  const best = series.reduce((acc, d, idx) => d.orders > acc.orders ? { orders: d.orders, idx } : acc, { orders: -1, idx: 0 });
+  const best = series.reduce((acc: { orders: number; idx: number }, d: any, idx: number) => d.orders > acc.orders ? { orders: d.orders, idx } : acc, { orders: -1, idx: 0 });
   if (productsCount === 0) {
     const all = await loadAllImports();
     const map = new Map<string, any>();
