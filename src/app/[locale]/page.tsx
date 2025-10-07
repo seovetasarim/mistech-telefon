@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { Hero } from "./(home)/hero";
 import { TrustBadges, USPBar, MiniFAQ } from "./(home)/sections";
 import HomeAllProducts from "./(home)/HomeAllProducts";
