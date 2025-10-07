@@ -8,9 +8,10 @@ import { PHONE_BRANDS } from "@/data/brands";
 
 export const dynamic = "force-static";
 
-export default async function PhonesCategoryPage({ searchParams }: { searchParams?: Record<string, string | string[]> }) {
-  const brand = typeof searchParams?.marka === "string" ? searchParams?.marka : undefined;
-  const sub = typeof searchParams?.alt === "string" ? searchParams?.alt : undefined;
+export default async function PhonesCategoryPage({ searchParams }: { searchParams: Promise<Record<string, string | string[]>> }) {
+  const sp = await searchParams;
+  const brand = typeof sp?.marka === "string" ? sp.marka : undefined;
+  const sub = typeof sp?.alt === "string" ? sp.alt : undefined;
   const products = DEMO_EXPORT
     ? (productsStatic as any[]).filter((p) => !brand || p.brand === brand)
     : await prisma.product.findMany({ where: { category: { slug: "telefonlar" }, ...(brand ? { brand } : {}) }, take: 24 });
