@@ -35,14 +35,14 @@ export default function ListingCard({ href, title, brand, price, image, index, b
                 >
                   {isFav ? <Heart className="w-4 h-4 fill-red-500 text-red-500" /> : <Heart className="w-4 h-4" />}
                 </button>
-                <a
-                  href={href}
+                <button
+                  onClick={(e)=>{ e.preventDefault(); e.stopPropagation(); window.location.href = href; }}
                   aria-label="Ürüne Git"
                   title="Ürüne Git"
                   className="size-10 rounded-full bg-white/80 backdrop-blur border border-white/60 ring-1 ring-black/10 text-foreground shadow-md hover:bg-white flex items-center justify-center"
                 >
                   <ArrowRight className="w-4 h-4" />
-                </a>
+                </button>
               </div>
             </div>
           )}
