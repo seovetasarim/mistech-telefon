@@ -20,7 +20,7 @@ export async function GET() {
     const seriesBase = Array.from({ length: 7 }).map((_, i)=> ({ day: i, orders: 0 }));
     const productIdToCount = new Map<string, number>();
     for(const o of recentOrders){
-      const dayIndex = Math.min(6, Math.max(0, Math.floor((o.createdAt - since) / (24*60*60*1000))));
+      const dayIndex = Math.min(6, Math.max(0, Math.floor((new Date(o.createdAt).getTime() - since.getTime()) / (24*60*60*1000))));
       seriesBase[dayIndex].orders += 1;
       for(const it of (o.items||[])){
         if(!it?.productId) continue;
