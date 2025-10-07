@@ -1,12 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { Button } from "@/components/ui/button";
 
 type BannerItem = { href: string; image: string; alt?: string; title?: string; subtitle?: string }; // overlay fields optional
 type BannerRow = { title?: string; items: BannerItem[] };
 
-export default function AdminBannersPage({ params }: { params: { locale: string } }) {
-  const { locale } = params;
+export default function AdminBannersPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = use(params);
   const [rows, setRows] = useState<BannerRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
