@@ -1,13 +1,14 @@
 "use client";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, use } from "react";
 import { useTranslations } from "next-intl";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Building2, AlertCircle } from "lucide-react";
 import Link from "next/link";
 
-export default function RegisterPage({ params }: { params: { locale: string } }) {
-  const base = `/${params.locale}`;
+export default function RegisterPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = use(params);
+  const base = `/${locale}`;
   const t = useTranslations('pages.register');
   const inputCls = "w-full border rounded-md px-3 py-2 bg-background focus:outline-none focus:ring-2 focus:ring-[#051e22]/30 focus:border-[#051e22] placeholder:text-muted-foreground/60";
   

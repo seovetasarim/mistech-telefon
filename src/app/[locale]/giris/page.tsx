@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, use } from "react";
 import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Building2, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
-export default function LoginPage({ params }: { params: { locale: string } }) {
-  const base = `/${params.locale}`;
+export default function LoginPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = use(params);
+  const base = `/${locale}`;
   const t = useTranslations('pages.login');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
