@@ -47,7 +47,8 @@ export async function POST(request: Request) {
       targetLang as deepl.TargetLanguageCode
     );
 
-    const translatedText = result.text;
+    const first = Array.isArray(result) ? result[0] : result;
+    const translatedText = first.text;
 
     // Cache the translation
     translationCache.set(cacheKey, translatedText);
@@ -55,18 +56,22 @@ export async function POST(request: Request) {
     return NextResponse.json({
       translatedText,
       cached: false,
-      detectedSourceLang: result.detectedSourceLang
+      detectedSourceLang: (first as any).detectedSourceLang
     });
   } catch (error: any) {
     console.error("Translation error:", error);
     
     // If DeepL fails, return original text
-    const { text } = await request.json();
-    return NextResponse.json({
-      translatedText: text,
-      error: error.message,
-      fallback: true
-    });
+    try {
+      const { text } = await request.json();
+      return NextResponse.json({
+        translatedText: text,
+        error: error.message,
+        fallback: true
+      });
+    } catch {
+      return NextResponse.json({ error: error?.message || 'Unknown error' }, { status: 500 });
+    }
   }
 }
 
