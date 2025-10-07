@@ -167,12 +167,12 @@ export default function IntegrationsPage() {
                       <div className="text-sm space-y-1 bg-muted/30 p-3 rounded">
                         {Object.entries(integration.config).map(([key, value]) => {
                           if (!value) return null;
-                          const displayValue = typeof value === 'string' && value.length > 30 
-                            ? value.substring(0, 30) + '...' 
-                            : value;
+                          const str = typeof value === 'string'
+                            ? (value.length > 30 ? value.substring(0, 30) + '...' : value)
+                            : (typeof value === 'object' ? JSON.stringify(value) : String(value));
                           return (
                             <p key={key}>
-                              <span className="font-medium capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span> {displayValue}
+                              <span className="font-medium capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span> {str}
                             </p>
                           );
                         })}
@@ -188,8 +188,7 @@ export default function IntegrationsPage() {
                   <Button 
                     size="sm" 
                     variant={integration.enabled ? "secondary" : "default"}
-                    onClick={() => toggleEnabled(integration.id)}
-                  >
+                    onClick={() => toggleEnabled(integration.id)}>
                     {integration.enabled ? "Devre Dışı" : "Aktifleştir"}
                   </Button>
                 </div>
@@ -225,7 +224,7 @@ export default function IntegrationsPage() {
                     </label>
                     <input
                       type={key.toLowerCase().includes('secret') || key.toLowerCase().includes('token') || key.toLowerCase().includes('key') ? "password" : "text"}
-                      value={value as string || ""}
+                      value={(value as string) || ""}
                       onChange={(e) => updateConfig(key, e.target.value)}
                       className="w-full rounded-md border px-3 py-2 text-sm font-mono"
                       placeholder={`Enter ${key}`}
