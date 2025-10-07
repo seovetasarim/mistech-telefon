@@ -1,18 +1,18 @@
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-// Redirect root path to default locale
 export function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname === '/') {
-    const url = request.nextUrl.clone();
-    url.pathname = '/tr';
-    return NextResponse.redirect(url, 308);
+  const { pathname } = request.nextUrl;
+  
+  // Redirect root to /tr
+  if (pathname === '/') {
+    return NextResponse.redirect(new URL('/tr', request.url));
   }
+  
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
 
 

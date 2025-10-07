@@ -5,11 +5,12 @@ import HomeAllProducts from "./(home)/HomeAllProducts";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-type PageProps = { params: { locale: string } };
+type PageProps = { params: Promise<{ locale: string }> };
 
 export default async function HomePage({ params }: PageProps) {
-  const locale = params.locale ?? "tr";
-  const messages = (await import(`../../messages/${locale}.json`)).default as any;
+  const { locale } = await params;
+  const resolvedLocale = locale ?? "tr";
+  const messages = (await import(`../../messages/${resolvedLocale}.json`)).default as any;
   const t = messages.hero ?? { headline: "Mistech", subtitle: "", cta: "Hemen Satın Al" };
 
   async function read(file: string) {
@@ -66,10 +67,10 @@ export default async function HomePage({ params }: PageProps) {
         title={t.headline}
         subtitle={t.subtitle}
         ctaLabel={t.cta ?? "Hemen Satın Al"}
-        ctaHref={`/${locale}/urunler`}
+        ctaHref={`/${resolvedLocale}/urunler`}
       />
       <USPBar totalCount={totalCount} />
-      <HomeAllProducts locale={locale as any} />
+      <HomeAllProducts locale={resolvedLocale as any} />
       <TrustBadges />
       <MiniFAQ />
     </div>
