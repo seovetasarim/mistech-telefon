@@ -24,6 +24,12 @@ const nextConfig: NextConfig = {
 		// Demo statik exportta optimize edilmesin
 		unoptimized: isDemoExport,
 	},
+	// Ana kökten varsayılan dili (tr) alt yoluna yönlendir
+	async redirects() {
+		return [
+			{ source: '/', destination: '/tr', permanent: true },
+		];
+	},
 	eslint: { ignoreDuringBuilds: true },
 	typescript: isDemoExport ? { ignoreBuildErrors: true } as any : undefined,
 	// Demo modunda static export al
