@@ -5,12 +5,10 @@ import HomeAllProducts from "./(home)/HomeAllProducts";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-export default async function HomePage({
-  params
-}: {
-  params: { locale?: string };
-}) {
-  const locale = (params?.locale as string | undefined) ?? "tr";
+type PageProps = { params: { locale: string } };
+
+export default async function HomePage({ params }: PageProps) {
+  const locale = params.locale ?? "tr";
   const messages = (await import(`../../messages/${locale}.json`)).default as any;
   const t = messages.hero ?? { headline: "Mistech", subtitle: "", cta: "Hemen Satın Al" };
 
